@@ -91,8 +91,8 @@ vec3 doLighting(in vec3 pos, in vec3 nor, in vec3 rd, in float dis, in vec3 mal)
 
 float calcIntersection(in vec3 ro, in vec3 rd)
 {
-	const float maxd = 20.0;          // max trace distance
-	const float precis = 0.001;       // precision of the intersection
+  const float maxd = 20.0;          // max trace distance
+  const float precis = 0.001;       // precision of the intersection
   float h = precis * 2.0;
   float t = 0.0;
   float res = -1.0;
@@ -117,17 +117,17 @@ vec3 calcNormal(in vec3 pos)
   const vec3 v3 = vec3(-1.0, 1.0, -1.0);
   const vec3 v4 = vec3(1.0, 1.0, 1.0);
 
-	return normalize(v1 * doModel(pos + v1 * eps) +
-              	   v2 * doModel(pos + v2 * eps) +
-              	   v3 * doModel(pos + v3 * eps) +
-              	   v4 * doModel(pos + v4 * eps));
+  return normalize(v1 * doModel(pos + v1 * eps) +
+                   v2 * doModel(pos + v2 * eps) +
+                   v3 * doModel(pos + v3 * eps) +
+                   v4 * doModel(pos + v4 * eps));
 }
 
 float calcSoftshadow(in vec3 ro, in vec3 rd)
 {
   float res = 1.0;
   float t = 0.0005;               // selfintersection avoidance distance
-	float h = 1.0;
+  float h = 1.0;
   for(int i = 0; i < 40; i++)     // 40 is the max numnber of raymarching steps
   {
     h = doModel(ro + rd * t);
@@ -170,7 +170,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
   vec3 col = doBackground();
 
-	// raymarch
+  // raymarch
   float t = calcIntersection(ro, rd);
   if(t > -0.5)
   {
@@ -183,10 +183,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     col = doLighting(pos, nor, rd, t, mal);
   }
 
-	//-----------------------------------------------------
-	// postprocessing
+  //-----------------------------------------------------
+  // postprocessing
   //-----------------------------------------------------
   // gamma
-	col = pow(clamp(col, 0.0, 1.0), vec3(0.4545));
+  col = pow(clamp(col, 0.0, 1.0), vec3(0.4545));
   fragColor = vec4(col, 1.0);
 }
