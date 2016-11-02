@@ -39,8 +39,21 @@ vec3 doBackground(void) {
 // this case it's a torus.
 //------------------------------------------------------------------------
 float doModel(vec3 p) {
+
+  //translation matrix
+  vec4 column0 = vec4(1.0, 0.0, 0.0, 0.0);
+  vec4 column1 = vec4(0.0, 1.0, 0.0, 0.0);
+  vec4 column2 = vec4(0.0, 0.0, 1.0, 0.0);
+  vec4 column3 = vec4(0.5, 0.5, 0.0, 1.0);
+
+  mat4 transMatrix = mat4(column0, column1, column2, column3);
+
+  vec4 point = vec4(p.x, p.y, p.z, 1.0);
+
+  point = transMatrix * point;
+
   vec2 t = vec2(1.0, 0.5);
-  vec2 q = vec2(length(p.xz) - t.x, p.y);
+  vec2 q = vec2(length(point.xz) - t.x, point.y);
   return length(q) - t.y;
 }
 
