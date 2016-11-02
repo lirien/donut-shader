@@ -62,10 +62,10 @@ float doModel(vec3 p) {
 //
 // Defines the material (colors, shading, pattern, texturing) of the model
 // at every point based on its position and normal. In this case, it simply
-// returns a constant pink color.
+// returns a constant color.
 //------------------------------------------------------------------------
 vec3 doMaterial(in vec3 pos, in vec3 nor) {
-  return vec3(0.48, 0.031, 0.20);
+  return vec3(0.157, 0.078, 0.027);
 }
 
 //------------------------------------------------------------------------
