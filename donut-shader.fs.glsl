@@ -9,7 +9,6 @@ uniform vec4      iMouse;                // mouse pixel coords. xy: current (if 
 //uniform samplerXX iChannel0..3;        // input channel. XX = 2D/Cube
 uniform vec4      iDate;                 // (year, month, day, time in seconds)
 uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
-
 #define PI 3.14159265358979323846
 
 //------------------------------------------------------------------------
@@ -21,7 +20,7 @@ uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
 //------------------------------------------------------------------------
 void doCamera(out vec3 camPos, out vec3 camTar, in float time, in float mouseX) {
   float an = 0.3 * iGlobalTime + 10.0 * mouseX;
-  camPos = vec3(3.5 * sin(an), 1.0, 3.5 * cos(an));
+  camPos = vec3(3.5 * sin(an), 3.0, 3.5 * cos(an));
   camTar = vec3(0.0, 0.0, 0.0);
 }
 
@@ -41,28 +40,8 @@ vec3 doBackground(void) {
 // this case it's a torus.
 //------------------------------------------------------------------------
 float doModel(vec3 p) {
-
-  //translation matrix
-  vec4 tm_column0 = vec4(1.0, 0.0, 0.0, 0.0);
-  vec4 tm_column1 = vec4(0.0, 1.0, 0.0, 0.0);
-  vec4 tm_column2 = vec4(0.0, 0.0, 1.0, 0.0);
-  vec4 tm_column3 = vec4(0.5, 0.5, 0.0, 1.0);
-
-  mat4 transMatrix = mat4(tm_column0, tm_column1, tm_column2, tm_column3);
-  vec4 point4 = vec4(p.x, p.y, p.z, 1.0);
-  point4 = transMatrix * point4;
-
-  //rotation matrix
-  vec3 rm_column0 = vec3(cos(PI / 4.0), sin(PI / 4.0), 0.0);
-  vec3 rm_column1 = vec3(-sin(PI / 4.0), cos(PI / 4.0), 0.0);
-  vec3 rm_column2 = vec3(0.0, 0.0, 1.0);
-
-  mat3 rotationMatrix = mat3(rm_column0, rm_column1, rm_column2);
-  vec3 point3 = point4.xyz;
-  point3 = rotationMatrix * point3;
-
-  vec2 t = vec2(1.0, 0.5);
-  vec2 q = vec2(length(point3.xz) - t.x, point3.y);
+  vec2 t = vec2(1.2, 0.6);
+  vec2 q = vec2(length(p.xz) - t.x, p.y);
   return length(q) - t.y;
 }
 
