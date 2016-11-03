@@ -10,6 +10,8 @@ uniform vec4      iMouse;                // mouse pixel coords. xy: current (if 
 uniform vec4      iDate;                 // (year, month, day, time in seconds)
 uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
 
+#define PI 3.14159265358979323846
+
 //------------------------------------------------------------------------
 // Camera
 //
@@ -41,19 +43,26 @@ vec3 doBackground(void) {
 float doModel(vec3 p) {
 
   //translation matrix
-  vec4 column0 = vec4(1.0, 0.0, 0.0, 0.0);
-  vec4 column1 = vec4(0.0, 1.0, 0.0, 0.0);
-  vec4 column2 = vec4(0.0, 0.0, 1.0, 0.0);
-  vec4 column3 = vec4(0.5, 0.5, 0.0, 1.0);
+  vec4 tm_column0 = vec4(1.0, 0.0, 0.0, 0.0);
+  vec4 tm_column1 = vec4(0.0, 1.0, 0.0, 0.0);
+  vec4 tm_column2 = vec4(0.0, 0.0, 1.0, 0.0);
+  vec4 tm_column3 = vec4(0.5, 0.5, 0.0, 1.0);
 
-  mat4 transMatrix = mat4(column0, column1, column2, column3);
+  mat4 transMatrix = mat4(tm_column0, tm_column1, tm_column2, tm_column3);
+  vec4 point4 = vec4(p.x, p.y, p.z, 1.0);
+  point4 = transMatrix * point4;
 
-  vec4 point = vec4(p.x, p.y, p.z, 1.0);
+  //rotation matrix
+  vec3 rm_column0 = vec3(cos(PI / 4.0), sin(PI / 4.0), 0.0);
+  vec3 rm_column1 = vec3(-sin(PI / 4.0), cos(PI / 4.0), 0.0);
+  vec3 rm_column2 = vec3(0.0, 0.0, 1.0);
 
-  point = transMatrix * point;
+  mat3 rotationMatrix = mat3(rm_column0, rm_column1, rm_column2);
+  vec3 point3 = point4.xyz;
+  point3 = rotationMatrix * point3;
 
   vec2 t = vec2(1.0, 0.5);
-  vec2 q = vec2(length(point.xz) - t.x, point.y);
+  vec2 q = vec2(length(point3.xz) - t.x, point3.y);
   return length(q) - t.y;
 }
 
